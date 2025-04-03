@@ -6,6 +6,8 @@
     <title>Unity Web Player | ProjectOffshore</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
+    <link rel="stylesheet" href="TemplateData/diagnostics.css">
+    <script src="TemplateData/diagnostics.js"></script>
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
@@ -20,6 +22,7 @@
       <div id="unity-footer">
         <div id="unity-logo-title-footer"></div>
         <div id="unity-fullscreen-button"></div>
+        <img id="diagnostics-icon" src="TemplateData/webmemd-icon.png">
         <div id="unity-build-title">ProjectOffshore</div>
       </div>
     </div>
@@ -52,12 +55,12 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/9d08bb31684a540c6d3dae3512509bbc.loader.js";
+      var loaderUrl = buildUrl + "/0311401708f02695890dbac1dd1f10b7.loader.js";
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/97013801ef3a35732b91ee322b2cc280.data.unityweb",
-        frameworkUrl: buildUrl + "/fb53f02f1a54c6a56f6cba96a8e7ac6c.framework.js.unityweb",
-        codeUrl: buildUrl + "/98fd06ad0699d37624f03ee16b3adb5c.wasm.unityweb",
+        dataUrl: buildUrl + "/a34f3fa13e915c53e733839d3d01482c.data.unityweb",
+        frameworkUrl: buildUrl + "/7beef94331123bb84159233aeb513fc7.framework.js.unityweb",
+        codeUrl: buildUrl + "/53c047d97b31f23038d1a05faabd23f9.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "ProjectOffshore",
@@ -95,6 +98,12 @@
         // performance, uncomment the following line:
         // config.devicePixelRatio = 1;
 
+        // position the diagnostics icon in the corner on the canvas
+        let diagnostics_icon = document.getElementById("diagnostics-icon");
+        diagnostics_icon.style.position = "fixed";
+        diagnostics_icon.style.bottom = "10px";
+        diagnostics_icon.style.right = "0px";
+        canvas.after(diagnostics_icon);
 
       } else {
         // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
@@ -111,6 +120,9 @@
           document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
               }).then((unityInstance) => {
                 document.querySelector("#unity-loading-bar").style.display = "none";
+                document.getElementById("diagnostics-icon").onclick = () => {
+                  unityDiagnostics.openDiagnosticsDiv(unityInstance.GetMetricsInfo);
+                };
                 document.querySelector("#unity-fullscreen-button").onclick = () => {
                   unityInstance.SetFullscreen(1);
                 };
